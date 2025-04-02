@@ -12,7 +12,7 @@ import "./App.css";*/
  * */
 import Main from "./component/main.tsx";
 
-interface Title {
+/*interface Title {
     direction: string; //제작 방향?(ex. 웹사이트 제작)
     client: string; //클라이언트
 }
@@ -64,7 +64,7 @@ const data: Data[] = [
             },
         ],
     },
-];
+];*/
 
 function App() {
     return <Main />;
