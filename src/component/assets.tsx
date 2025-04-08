@@ -1,6 +1,5 @@
 import { useState } from "react";
-import useDataStore from "../assets/store/store.tsx";
-import Detail from "../assets/store/store.tsx";
+import useDataStore, { Detail } from "../assets/store/store.tsx";
 import iconLink from "../assets/images/icon_link.svg";
 
 interface ListDataProps {
@@ -17,12 +16,6 @@ interface ListDataProps {
     informationIsView: boolean;
     index: number;
 }
-interface ViewDataProps {
-    titleDirection: string;
-    titleClient: string;
-    informationIsView?: boolean;
-    detail?: (typeof Detail)[];
-}
 
 function Card({
     titleDirection,
@@ -37,7 +30,6 @@ function Card({
     index,
 }: ListDataProps) {
     const [isHover, setIsHover] = useState(false);
-    /*const [isClick, setIsClick] = useState(false);*/
     const list = useDataStore((state) => state.list);
     const isViewToggle = useDataStore((state) => state.isViewToggle);
     const isViewAllRemove = useDataStore((state) => state.isViewAllRemove);
@@ -159,8 +151,14 @@ function Card({
     );
 }
 
+interface ViewDataProps {
+    titleDirection?: string;
+    titleClient?: string;
+    informationIsView?: boolean;
+    detail?: Detail[];
+}
+
 function View({ titleDirection, titleClient, informationIsView, detail }: ViewDataProps) {
-    console.log(detail);
     return informationIsView ? (
         <div className="h-[100%]">
             <div className="pt-[20px] pl-[20px]">
@@ -169,8 +167,19 @@ function View({ titleDirection, titleClient, informationIsView, detail }: ViewDa
                 </h4>
                 <p className="text-white text-[24px] font-bold leading-[170%]">{titleClient}</p>
             </div>
-            <div className="pt-[14px]">
-                {detail ? detail.map((element) => <div>{element.title}</div>) : null}
+            <div className="px-[20px]">
+                {detail
+                    ? detail.map((element) => {
+                          return (
+                              <div className="pt-[14px]">
+                                  <div>{element.siteImage[0]}</div>
+                                  <div>{element.codeImage[0]}</div>
+                                  <div>{element.title}</div>
+                                  <div>{element.contentText}</div>
+                              </div>
+                          );
+                      })
+                    : null}
             </div>
         </div>
     ) : (

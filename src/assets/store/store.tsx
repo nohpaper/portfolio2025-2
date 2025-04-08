@@ -13,7 +13,7 @@ interface Information {
     library: string[]; //작업 툴
     isView: boolean; //자세한 내용
 }
-interface Detail {
+export interface Detail {
     siteImage: string[]; //이미지
     codeImage: string[]; //코드 이미지
     title: string; //타이틀
@@ -57,6 +57,13 @@ const useDataStore = create<DataList>((set) => {
                         codeImage: ["", "", ""],
                         title: "detail TEST TITLE 01",
                         contentText: "detail TEST TITLE content text 01",
+                        isSlide: true,
+                    },
+                    {
+                        siteImage: ["", "", ""],
+                        codeImage: ["", "", ""],
+                        title: "detail TEST TITLE 01-2",
+                        contentText: "detail TEST TITLE content text 01-2",
                         isSlide: true,
                     },
                 ],
@@ -107,8 +114,8 @@ const useDataStore = create<DataList>((set) => {
                     {
                         siteImage: ["", "", ""],
                         codeImage: ["", "", ""],
-                        title: "",
-                        contentText: "",
+                        title: "detail TEST TITLE 02",
+                        contentText: "detail TEST TITLE content text 02",
                         isSlide: true,
                     },
                 ],
@@ -133,8 +140,8 @@ const useDataStore = create<DataList>((set) => {
                     {
                         siteImage: ["", "", ""],
                         codeImage: ["", "", ""],
-                        title: "",
-                        contentText: "",
+                        title: "detail TEST TITLE 02",
+                        contentText: "detail TEST TITLE content text 02",
                         isSlide: true,
                     },
                 ],
@@ -157,4 +164,3 @@ const useDataStore = create<DataList>((set) => {
     };
 });
 export default useDataStore;
-export type { Detail };

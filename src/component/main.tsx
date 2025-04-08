@@ -9,7 +9,7 @@ interface CategoryItem {
 }
 type Category = CategoryItem;
 function Main() {
-    const data = useDataStore();
+    const data = useDataStore((state) => state);
     const [category, setCategory] = useState<Category[]>([
         {
             englishName: "ALL",
