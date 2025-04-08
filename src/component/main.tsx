@@ -1,10 +1,39 @@
 import { Card, View } from "./assets.tsx";
 import useDataStore from "../assets/store/store.tsx";
+import { useState } from "react";
 
-const category = ["ALL", "하드코딩", "리액트", "타입스크립트"];
-
+interface CategoryItem {
+    englishName: string;
+    KoreanName: string;
+    isActive: boolean;
+}
+type Category = CategoryItem;
 function Main() {
     const data = useDataStore();
+    const [category, setCategory] = useState<Category[]>([
+        {
+            englishName: "ALL",
+            KoreanName: "전체",
+            isActive: true,
+        },
+        {
+            englishName: "HardCoding",
+            KoreanName: "하드코딩",
+            isActive: false,
+        },
+        {
+            englishName: "React",
+            KoreanName: "리액트",
+            isActive: false,
+        },
+        {
+            englishName: "TypeScript",
+            KoreanName: "타입스크립트",
+            isActive: false,
+        },
+    ]);
+    const activeCategory = category.find((element) => element.isActive);
+    const activeContent = data.list.find((element) => element.information.isView);
 
     return (
         <div className="w-[100%] h-[100vh] flex justify-center justify-items-center bg-black">
@@ -13,17 +42,31 @@ function Main() {
                 <div className="w-[760px]">
                     {/* 카테고리 */}
                     <ul className="flex gap-[10px] p-[10px] mr-[30px] rounded-[40px] box-border bg-[#4C4C4C]">
-                        {category.map(function (name, index) {
+                        {category.map(function (element: Category, index: number) {
                             return (
                                 <li
-                                    className="text-white rounded-[40px] box-border bg-[#818181]"
+                                    className={`flex-[1_1_auto] text-white rounded-[40px] box-border ${element.isActive ? "bg-[#818181]" : "bg-[#4C4C4C]"} duration-300`}
                                     key={index}
                                 >
                                     <button
                                         type="button"
-                                        className="block p-[10px_40px] text-[16px] leading-[170%]"
+                                        className="w-[100%] block p-[10px_40px] text-[16px] leading-[170%]"
+                                        onClick={() => {
+                                            const copy = [...category];
+
+                                            //클릭하는 요소의 값이 false일 경우
+                                            if (!copy[index].isActive) {
+                                                //모두 false
+                                                copy.map(function (item) {
+                                                    item.isActive = false;
+                                                });
+                                            }
+
+                                            copy[index].isActive = !copy[index].isActive;
+                                            setCategory(copy);
+                                        }}
                                     >
-                                        {name}
+                                        {element.englishName}
                                     </button>
                                 </li>
                             );
@@ -36,28 +79,66 @@ function Main() {
                     >
                         <div className="flex flex-wrap gap-[20px_10px] mb-[95px]">
                             {data.list.map(function (element, index) {
-                                return (
-                                    <Card
-                                        titleDirection={element.title.direction}
-                                        titleClient={element.title.client}
-                                        liveLink={element.liveLink}
-                                        informationWorking={element.information.working}
-                                        informationContribution={element.information.contribution}
-                                        informationPerson={element.information.person}
-                                        informationScope={element.information.scope}
-                                        informationHow={element.information.how}
-                                        informationTool={element.information.tool}
-                                        informationIsView={element.information.isView}
-                                        key={index}
-                                    />
-                                );
+                                if (activeCategory?.KoreanName === element.information.how) {
+                                    return (
+                                        <Card
+                                            titleDirection={element.title.direction}
+                                            titleClient={element.title.client}
+                                            liveLink={element.liveLink}
+                                            informationWorking={element.information.working}
+                                            informationContribution={
+                                                element.information.contribution
+                                            }
+                                            informationPerson={element.information.person}
+                                            informationScope={element.information.scope}
+                                            informationHow={element.information.how}
+                                            informationTool={element.information.tool}
+                                            informationIsView={element.information.isView}
+                                            index={index}
+                                            key={index}
+                                        />
+                                    );
+                                } else if (activeCategory?.KoreanName === "전체") {
+                                    return (
+                                        <Card
+                                            titleDirection={element.title.direction}
+                                            titleClient={element.title.client}
+                                            liveLink={element.liveLink}
+                                            informationWorking={element.information.working}
+                                            informationContribution={
+                                                element.information.contribution
+                                            }
+                                            informationPerson={element.information.person}
+                                            informationScope={element.information.scope}
+                                            informationHow={element.information.how}
+                                            informationTool={element.information.tool}
+                                            informationIsView={element.information.isView}
+                                            index={index}
+                                            key={index}
+                                        />
+                                    );
+                                }
                             })}
                         </div>
                     </div>
                 </div>
                 {/* view wrap */}
-                <div className="w-[480px] h-[788px] rounded-[40px] bg-amber-100">
-                    <View />
+                <div
+                    className="w-[480px] h-[788px] relative rounded-[40px] overflow-y-auto bg-linear-135 from-[#5b6f67] to-[#6f5d6b]"
+                    style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+                >
+                    {activeContent ? (
+                        // 있을 때
+                        <View
+                            titleDirection={activeContent.title.direction}
+                            titleClient={activeContent.title.client}
+                            informationIsView={activeContent.information.isView}
+                            detail={activeContent.detail}
+                        />
+                    ) : (
+                        // 없을 때
+                        <View />
+                    )}
                 </div>
             </section>
         </div>

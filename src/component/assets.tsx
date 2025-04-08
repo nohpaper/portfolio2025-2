@@ -1,5 +1,8 @@
 import { useState } from "react";
+import useDataStore from "../assets/store/store.tsx";
+import Detail from "../assets/store/store.tsx";
 import iconLink from "../assets/images/icon_link.svg";
+
 interface ListDataProps {
     titleDirection: string;
     titleClient: string;
@@ -12,9 +15,14 @@ interface ListDataProps {
     informationHow: string;
     informationTool: string[];
     informationIsView: boolean;
+    index: number;
 }
-
-interface ViewDataProps {}
+interface ViewDataProps {
+    titleDirection: string;
+    titleClient: string;
+    informationIsView?: boolean;
+    detail?: (typeof Detail)[];
+}
 
 function Card({
     titleDirection,
@@ -26,22 +34,22 @@ function Card({
     informationScope,
     informationHow,
     informationTool,
-    informationIsView,
+    index,
 }: ListDataProps) {
     const [isHover, setIsHover] = useState(false);
-    const [isClick, setIsClick] = useState(false);
+    /*const [isClick, setIsClick] = useState(false);*/
+    const list = useDataStore((state) => state.list);
+    const isViewToggle = useDataStore((state) => state.isViewToggle);
+    const isViewAllRemove = useDataStore((state) => state.isViewAllRemove);
 
     return (
         <div
             className={`
-        w-[360px] h-[340px] relative rounded-[40px] ${isHover ? "z-2 after:h-[435px]" : "after:h-[350px]"} cursor-pointer ${isClick ? "after:opacity-100" : "after:opacity-0"}
+        w-[360px] h-[340px] relative rounded-[40px] ${isHover ? "z-2 after:h-[435px]" : "after:h-[350px]"} cursor-pointer ${list[index].information.isView ? "after:opacity-100" : "after:opacity-0"}
         after:content-[""] after:w-[100%] after:h-[350px] after:absolute after:top-0 after:left-0 after:border-[5px] after:border-[#F4F4F4] after:rounded-[40px] after:duration-300 after:pointer-events-none
         `}
             onMouseOver={() => setIsHover(true)}
             onMouseOut={() => setIsHover(false)}
-            onClick={() => {
-                setIsClick(!isClick);
-            }}
         >
             {/* 뒷장 */}
             <div
@@ -96,7 +104,7 @@ function Card({
                     <div className="flex justify-between items-center">
                         <div>
                             <p className="text-[12px] leading-[170%]">작업기간(일)</p>
-                            <strong className="text-[16px] font-[400] leading-[170%]">
+                            <strong className="text-[16px] font-light leading-[170%]">
                                 {informationWorking}
                             </strong>
                         </div>
@@ -107,7 +115,10 @@ function Card({
                                     p-[4px_20px_2px] rounded-[10px] text-white text-[12px] font-bold leading-[170%] bg-[#C0C0C0] duration-300
                                     hover:bg-[#4C4C4C] hover:text-white
                                 "
-                                /*onClick={()=>{informationIsView()}}*/
+                                onClick={() => {
+                                    isViewAllRemove();
+                                    isViewToggle(index);
+                                }}
                             >
                                 자세히보기
                             </button>
@@ -117,27 +128,27 @@ function Card({
                     <div className="flex justify-between pt-[15px]">
                         <div>
                             <p className="text-[12px] leading-[170%]">기여도</p>
-                            <strong className="text-[32px] font-[400] leading-[120%]">
+                            <strong className="text-[32px] font-light leading-[120%]">
                                 {informationContribution}
                                 <span className="text-[20px]">%</span>
                             </strong>
                         </div>
                         <div>
                             <p className="text-[12px] leading-[170%]">작업인원</p>
-                            <strong className="text-[16px] font-[400] leading-[170%]">
+                            <strong className="text-[16px] font-light leading-[170%]">
                                 {informationPerson}
                                 <span>명</span>
                             </strong>
                         </div>
                         <div>
                             <p className="text-[12px] leading-[170%]">작업범위</p>
-                            <strong className="text-[16px] font-[400] leading-[170%]">
+                            <strong className="text-[16px] font-light leading-[170%]">
                                 {informationScope}
                             </strong>
                         </div>
                         <div>
                             <p className="text-[12px] leading-[170%]">작업방식</p>
-                            <strong className="text-[16px] font-[400] leading-[170%]">
+                            <strong className="text-[16px] font-light leading-[170%]">
                                 {informationHow}
                             </strong>
                         </div>
@@ -148,8 +159,67 @@ function Card({
     );
 }
 
-function View({}: ViewDataProps) {
-    return <div></div>;
+function View({ titleDirection, titleClient, informationIsView, detail }: ViewDataProps) {
+    console.log(detail);
+    return informationIsView ? (
+        <div className="h-[100%]">
+            <div className="pt-[20px] pl-[20px]">
+                <h4 className="text-white text-[36px] font-bold leading-[170%]">
+                    {titleDirection}
+                </h4>
+                <p className="text-white text-[24px] font-bold leading-[170%]">{titleClient}</p>
+            </div>
+            <div className="pt-[14px]">
+                {detail ? detail.map((element) => <div>{element.title}</div>) : null}
+            </div>
+        </div>
+    ) : (
+        <div className="h-[100%]">
+            <div className="py-[20px] mx-[20px] overflow-hidden">
+                <h5 className="text-[36px] font-bold leading-[170%] whitespace-pre hover:translate-x-[-100%] hover:duration-[7s] ease-linear">
+                    @@@
+                    <br />
+                    소개말~~들어갈 자리~~~~~!!!
+                </h5>
+            </div>
+            <div className="flex gap-[5px] flex-col mx-[20px]">
+                <div className="flex gap-[5px] flex-wrap">
+                    <div className="stack-button">HTML5</div>
+                    <div className="stack-button">CSS</div>
+                    <div className="stack-button">SCSS</div>
+                    <div className="stack-button">JavaScript</div>
+                    <div className="stack-button">JQuery</div>
+                    <div className="stack-button">React</div>
+                    <div className="stack-button">TypeScript</div>
+                </div>
+                <div className="flex gap-[5px] flex-wrap">
+                    <div className="stack-button">VScode</div>
+                    <div className="stack-button">intelliJ</div>
+                    <div className="stack-button">webStorm</div>
+                    <div className="stack-button">Slack</div>
+                    <div className="stack-button">Figma</div>
+                </div>
+            </div>
+            <div className="pt-[10px] mx-[20px]">
+                <div className="w-[100%] h-[390px] rounded-[20px] bg-[rgba(255,255,255,0.3)]"></div>
+            </div>
+            <div className="pt-[10px] mx-[20px]">
+                <p className="text-[16px] font-light leading-[170%]">
+                    프로젝트 기간 수립 및 계획 실행
+                </p>
+                <p className="pt-[5px] text-[16px] font-light leading-[170%]">
+                    홈페이지 유지보수 업무
+                </p>
+                <p className="pt-[5px] text-[16px] font-light leading-[170%]">
+                    인터렉션 홈페이지 제작
+                </p>
+            </div>
+            <div className="absolute right-[20px] bottom-[20px]">
+                <a href="mailto:nohpaper99@naver.com">이메일</a>
+                <a href="">깃허브</a>
+            </div>
+        </div>
+    );
 }
 
 export { Card, View };

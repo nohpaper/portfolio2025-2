@@ -17,3 +17,9 @@
 
 a {text-decoration: inherit;}
 button { cursor: pointer; }
+
+@layer components {
+    .stack-button {
+        @apply inline-block p-[1px_10px] text-[12px] font-light leading-[170%] rounded-[5px] bg-[#747474];
+    }
+}
