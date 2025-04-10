@@ -53,15 +53,15 @@ const useDataStore = create<DataList>((set) => {
                 },
                 detail: [
                     {
-                        siteImage: ["", "", ""],
-                        codeImage: ["", "", ""],
+                        siteImage: ["image01", "image02"],
+                        codeImage: [],
                         title: "detail TEST TITLE 01",
                         contentText: "detail TEST TITLE content text 01",
                         isSlide: true,
                     },
                     {
-                        siteImage: ["", "", ""],
-                        codeImage: ["", "", ""],
+                        siteImage: ["image01", "image02", "image03"],
+                        codeImage: [],
                         title: "detail TEST TITLE 01-2",
                         contentText: "detail TEST TITLE content text 01-2",
                         isSlide: true,
@@ -86,8 +86,8 @@ const useDataStore = create<DataList>((set) => {
                 },
                 detail: [
                     {
-                        siteImage: ["", "", ""],
-                        codeImage: ["", "", ""],
+                        siteImage: ["image01"],
+                        codeImage: [],
                         title: "detail TEST TITLE 02",
                         contentText: "detail TEST TITLE content text 02",
                         isSlide: true,

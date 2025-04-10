@@ -2,6 +2,32 @@ import { useState } from "react";
 import useDataStore, { Detail } from "../assets/store/store.tsx";
 import iconLink from "../assets/images/icon_link.svg";
 
+// swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+
+const detailImagesSwiper = (swiperContent: string[]) => {
+    return (
+        <Swiper pagination={{ clickable: true }} modules={[Pagination]} slidesPerView={1}>
+            {swiperContent.map((element, index) => {
+                return (
+                    <SwiperSlide
+                        key={index}
+                        className="min-w-[400px] h-[313px] rounded-[20px] overflew-hidden bg-[#909695]"
+                    >
+                        <img src={element} alt="" className="w-[100%] h-[100%]" />
+                    </SwiperSlide>
+                );
+            })}
+        </Swiper>
+    );
+};
+
 interface ListDataProps {
     titleDirection: string;
     titleClient: string;
@@ -27,6 +53,7 @@ function Card({
     informationScope,
     informationHow,
     informationTool,
+    informationIsView,
     index,
 }: ListDataProps) {
     const [isHover, setIsHover] = useState(false);
@@ -39,6 +66,7 @@ function Card({
             className={`
         w-[360px] h-[340px] relative rounded-[40px] ${isHover ? "z-2 after:h-[435px]" : "after:h-[350px]"} cursor-pointer ${list[index].information.isView ? "after:opacity-100" : "after:opacity-0"}
         after:content-[""] after:w-[100%] after:h-[350px] after:absolute after:top-0 after:left-0 after:border-[5px] after:border-[#F4F4F4] after:rounded-[40px] after:duration-300 after:pointer-events-none
+        max-xl:w-auto max-xl:max-w-[100%] max-xl:px-[24px]
         `}
             onMouseOver={() => setIsHover(true)}
             onMouseOut={() => setIsHover(false)}
@@ -93,7 +121,7 @@ function Card({
                 </div>
                 {/* 하단 정보 */}
                 <div className="w-[100%] absolute bottom-[10px] left-0 p-[0_25px] box-border">
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center max-xl:w-[50%]">
                         <div>
                             <p className="text-[12px] leading-[170%]">작업기간(일)</p>
                             <strong className="text-[16px] font-light leading-[170%]">
@@ -108,7 +136,7 @@ function Card({
                                     hover:bg-[#4C4C4C] hover:text-white
                                 "
                                 onClick={() => {
-                                    isViewAllRemove();
+                                    !informationIsView && isViewAllRemove();
                                     isViewToggle(index);
                                 }}
                             >
@@ -117,7 +145,7 @@ function Card({
                         </div>
                     </div>
 
-                    <div className="flex justify-between pt-[15px]">
+                    <div className="flex justify-between pt-[15px] max-xl:w-[50%]">
                         <div>
                             <p className="text-[12px] leading-[170%]">기여도</p>
                             <strong className="text-[32px] font-light leading-[120%]">
@@ -172,7 +200,7 @@ function View({ titleDirection, titleClient, informationIsView, detail }: ViewDa
                     ? detail.map((element) => {
                           return (
                               <div className="pt-[14px]">
-                                  <div>{element.siteImage[0]}</div>
+                                  <div>{detailImagesSwiper(element.siteImage)}</div>
                                   <div>{element.codeImage[0]}</div>
                                   <div>{element.title}</div>
                                   <div>{element.contentText}</div>
@@ -186,9 +214,8 @@ function View({ titleDirection, titleClient, informationIsView, detail }: ViewDa
         <div className="h-[100%]">
             <div className="py-[20px] mx-[20px] overflow-hidden">
                 <h5 className="text-[36px] font-bold leading-[170%] whitespace-pre hover:translate-x-[-100%] hover:duration-[7s] ease-linear">
-                    @@@
                     <br />
-                    소개말~~들어갈 자리~~~~~!!!
+                    퍼블리셔입니다
                 </h5>
             </div>
             <div className="flex gap-[5px] flex-col mx-[20px]">
@@ -225,7 +252,9 @@ function View({ titleDirection, titleClient, informationIsView, detail }: ViewDa
             </div>
             <div className="absolute right-[20px] bottom-[20px]">
                 <a href="mailto:nohpaper99@naver.com">이메일</a>
-                <a href="">깃허브</a>
+                <a href="https://github.com/nohpaper" target="_blank" className="ml-[10px]">
+                    깃허브
+                </a>
             </div>
         </div>
     );
