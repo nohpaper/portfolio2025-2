@@ -13,12 +13,17 @@ import "swiper/css/scrollbar";
 
 const detailImagesSwiper = (swiperContent: string[]) => {
     return (
-        <Swiper pagination={{ clickable: true }} modules={[Pagination]} slidesPerView={1}>
+        <Swiper
+            pagination={{ clickable: true }}
+            modules={[Pagination]}
+            slidesPerView={1}
+            spaceBetween={10}
+        >
             {swiperContent.map((element, index) => {
                 return (
                     <SwiperSlide
                         key={index}
-                        className="min-w-[400px] h-[313px] rounded-[20px] overflew-hidden bg-[#909695]"
+                        className="min-w-[400px] h-[313px] rounded-[20px] overflow-hidden bg-[#909695]"
                     >
                         <img src={element} alt="" className="w-[100%] h-[100%]" />
                     </SwiperSlide>
@@ -102,22 +107,26 @@ function Card({
                         </p>
                     </div>
                     {/* 외부 링크 */}
-                    <div className="pr-[25px]">
-                        <a
-                            href={liveLink}
-                            className={`
+                    {liveLink === "" ? (
+                        <div className="w-[74px] h-[74px] pr-[25px]"></div>
+                    ) : (
+                        <div className="pr-[25px]">
+                            <a
+                                href={liveLink}
+                                className={`
                                 w-[74px] h-[74px] relative flex items-center justify-center border-[1px] border-white rounded-[100%] text-white text-[40px] overflow-hidden duration-150
                                 hover:border-[4px]
                             `}
-                            target="_blank"
-                        >
-                            <img
-                                src={iconLink}
-                                alt=""
-                                className="w-[100%] h-[100%] absolute top-0 left-0 duration-150"
-                            />
-                        </a>
-                    </div>
+                                target="_blank"
+                            >
+                                <img
+                                    src={iconLink}
+                                    alt=""
+                                    className="w-[100%] h-[100%] absolute top-0 left-0 duration-150"
+                                />
+                            </a>
+                        </div>
+                    )}
                 </div>
                 {/* 하단 정보 */}
                 <div className="w-[100%] absolute bottom-[10px] left-0 p-[0_25px] box-border">
@@ -195,15 +204,39 @@ function View({ titleDirection, titleClient, informationIsView, detail }: ViewDa
                 </h4>
                 <p className="text-white text-[24px] font-bold leading-[170%]">{titleClient}</p>
             </div>
-            <div className="px-[20px]">
+            <div className="px-[20px] pb-[20px]">
                 {detail
-                    ? detail.map((element) => {
+                    ? detail.map((element, index) => {
                           return (
-                              <div className="pt-[14px]">
-                                  <div>{detailImagesSwiper(element.siteImage)}</div>
-                                  <div>{element.codeImage[0]}</div>
-                                  <div>{element.title}</div>
-                                  <div>{element.contentText}</div>
+                              <div
+                                  className={`${index === 0 ? "pt-[10px]" : "pt-[40px]"}`}
+                                  key={index}
+                              >
+                                  {element.siteImage.length === 0 ? null : (
+                                      <div>{detailImagesSwiper(element.siteImage)}</div>
+                                  )}
+                                  <div className="pt-[10px]">
+                                      {detailImagesSwiper(element.codeImage)}
+                                  </div>
+                                  <div className="pt-[10px] text-[16px] font-bold">
+                                      {element.title}
+                                  </div>
+                                  <div className="pt-[5px] text-[14px]">
+                                      {Array.isArray(element.contentText) ? (
+                                          element.contentText.map((item, index) => {
+                                              return (
+                                                  <p
+                                                      key={index}
+                                                      className={`${index > 0 && "pt-[10px]"}`}
+                                                  >
+                                                      {item}
+                                                  </p>
+                                              );
+                                          })
+                                      ) : (
+                                          <p>{element.contentText}</p>
+                                      )}
+                                  </div>
                               </div>
                           );
                       })

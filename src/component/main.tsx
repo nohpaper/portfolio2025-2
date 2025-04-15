@@ -12,6 +12,7 @@ type Category = CategoryItem;
 /*TODO::
  * 1. view 타이틀에 뒤로 가기 아이콘 추가 및 타이틀 클릭 시 isView: false 되도록 작업
  * 2. 모바일용 작업 768 이하부터 vw로 작업
+ * 3. 전자 기기 소개 맨마지막 코드 이미지 다시
  * */
 function Main() {
     const data = useDataStore((state) => state);
@@ -158,24 +159,35 @@ function Main() {
                 {/* view wrap */}
                 <div
                     className={`
-                        w-[480px] h-[788px] relative rounded-[40px] overflow-y-auto bg-linear-135 from-[#5b6f67] to-[#6f5d6b] duration-700
+                        w-[480px] h-[788px] relative rounded-[40px] bg-linear-135 from-[#5b6f67] to-[#6f5d6b] duration-700
                         max-xl:absolute max-xl:z-99
                         ${activeContent?.information.isView ? "max-xl:right-[24px] max-xl:shadow-[-7px_10px_10px_rgba(0,0,0,.4)]" : "max-xl:right-[-100%]"}
                     `}
-                    style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                 >
-                    {activeContent ? (
-                        // 있을 때
-                        <View
-                            titleDirection={activeContent.title.direction}
-                            titleClient={activeContent.title.client}
-                            informationIsView={activeContent.information.isView}
-                            detail={activeContent.detail}
-                        />
-                    ) : (
-                        // 없을 때
-                        <View />
-                    )}
+                    <div
+                        className="h-[100%] overflow-y-auto rounded-[40px]"
+                        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+                    >
+                        {activeContent ? (
+                            // 있을 때
+
+                            <View
+                                titleDirection={activeContent.title.direction}
+                                titleClient={activeContent.title.client}
+                                informationIsView={activeContent.information.isView}
+                                detail={activeContent.detail}
+                            />
+                        ) : (
+                            // 없을 때
+                            <View />
+                        )}
+                    </div>
+                    <button
+                        type="button"
+                        className={`w-[50px] h-[50px] ${activeContent ? "flex items-center justify-center" : "hidden"} absolute top-[40px] right-0 rounded-[10px_0_0_10px] bg-[#818181] shadow-[-4px_4px_10px_rgba(0,0,0,.1)] z-[90]`}
+                    >
+                        X
+                    </button>
                 </div>
             </section>
         </div>
