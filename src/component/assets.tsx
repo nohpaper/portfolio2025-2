@@ -191,18 +191,39 @@ function Card({
 interface ViewDataProps {
     titleDirection?: string;
     titleClient?: string;
+    informationLibrary?: string[];
     informationIsView?: boolean;
     detail?: Detail[];
 }
 
-function View({ titleDirection, titleClient, informationIsView, detail }: ViewDataProps) {
+function View({
+    titleDirection,
+    titleClient,
+    informationLibrary,
+    informationIsView,
+    detail,
+}: ViewDataProps) {
     return informationIsView ? (
         <div className="h-[100%]">
             <div className="pt-[20px] pl-[20px]">
-                <h4 className="text-white text-[36px] font-bold leading-[170%]">
+                <h4 className="text-white text-[36px] font-bold leading-[140%]">
                     {titleDirection}
                 </h4>
-                <p className="text-white text-[24px] font-bold leading-[170%]">{titleClient}</p>
+                <p className="text-white text-[20px] font-bold leading-[140%]">{titleClient}</p>
+            </div>
+            <div className="px-[20px] pt-[10px]">
+                {informationLibrary
+                    ? informationLibrary.map((element, index) => {
+                          return (
+                              <div
+                                  className={`stack-button ${index > 0 && "ml-[5px]"}`}
+                                  key={index}
+                              >
+                                  {element}
+                              </div>
+                          );
+                      })
+                    : null}
             </div>
             <div className="px-[20px] pb-[20px]">
                 {detail

@@ -33,6 +33,11 @@ import devicesCode01_1 from "../images/devicesCode01-1.jpg";
 import devicesCode02_1 from "../images/devicesCode02-1.jpg";
 import devicesSite03_1 from "../images/devicesSite03-1.jpg";
 import devicesCode03_1 from "../images/devicesCode03-1.jpg";
+import devicesCode03_2 from "../images/devicesCode03-2.jpg";
+
+import fruitsCode01_1 from "../images/fruitsCode01-1.jpg";
+import fruitsCode02_1 from "../images/fruitsCode02-1.jpg";
+import fruitsCode03_1 from "../images/fruitsCode03-1.jpg";
 
 interface Title {
     direction: string; //제작 방향?(ex. 웹사이트 제작)
@@ -72,26 +77,37 @@ const useDataStore = create<DataList>((set) => {
             {
                 title: {
                     direction: "제철 과일 찾기",
-                    client: "",
+                    client: "개인 프로젝트",
                 },
-                liveLink: "test1", //입력 필
+                liveLink: "https://github.com/nohpaper/fruit_finder2",
                 information: {
-                    working: "23. 05. 15 ~ 06. 09(20일)",
+                    working: "24. 12. 05 ~ 12. 26(21일)",
                     contribution: 100,
                     person: 1,
                     scope: "반응형",
                     how: "리액트",
-                    tool: ["HTML5", "SCSS", "JavaScript", "JQuery"],
-                    library: ["Swiper", "Zustand"], //입력 필
+                    tool: ["React"],
+                    library: [],
                     isView: false,
                 },
                 detail: [
                     {
-                        siteImage: ["", "", ""], //입력 필
-                        codeImage: ["", "", ""], //입력 필
-                        title: "CANVAS 태그 반응형 분기 처리",
-                        contentText:
-                            "한 태그에서 분기점을 기준으로 다른 이미지를 출력할 수 있도록 지정하고, canvas 태그 밑에 깔아둔 img태그의 너비와 높이값을 가져와 페이지 접속 시 원활하게 이미지 조정이 될 수 있도록 작업 하였습니다.",
+                        siteImage: [],
+                        codeImage: [fruitsCode01_1],
+                        title: "데이터 세팅",
+                        contentText: "데이터를 다루기 위해서 변수 fruits / steps",
+                    },
+                    {
+                        siteImage: [],
+                        codeImage: [fruitsCode02_1],
+                        title: "",
+                        contentText: "",
+                    },
+                    {
+                        siteImage: [],
+                        codeImage: [fruitsCode03_1],
+                        title: "",
+                        contentText: "",
                     },
                 ],
             },
@@ -128,7 +144,7 @@ const useDataStore = create<DataList>((set) => {
                     },
                     {
                         siteImage: [devicesSite03_1],
-                        codeImage: [devicesCode03_1],
+                        codeImage: [devicesCode03_1, devicesCode03_2],
                         title: "모바일에서 팝업 드래그 시 위치 이동하면서 화면 변경되는 기능 개발",
                         contentText: [
                             "단순 이미지가 전환되는 기능으로 첫 화면에서 버튼 클릭 시 css로 두번째 이미지로 자연스럽게 변경될 수 있도록 작업하였습니다. 본 프로젝트의 경우 인트로에 굉장히 많은 이미지가 들어가기 때문에 다른 부분은 움직임을 최소화하면서도 자연스러움을 포인트로 잡았습니다. ",
